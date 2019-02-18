@@ -30,7 +30,9 @@ node {
       }
    }
    stage('Deploy') {
-       bat '"C:\Program Files\Git\bin\bash.exe" -c "curl -u jenkins:jenkins -T target/**.war \\"http://localhost:8083/manager/text/deploy?path=/devops&update=true\\""'
+       def MEETINGROOM = "Test"
+         def CURLDATA = """'{"to":"${MEETINGROOM}"}'"""
+  println  "${CURLDATA}"
    }
    stage("Smoke Test"){
        bat "curl --retry-delay 10 --retry 5 http://localhost:8083/devops"
