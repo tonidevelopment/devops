@@ -2,7 +2,7 @@ node {
    def mvnHome
  
    stage('Deploy') {
-  	  def tomcaturl = "http://localhost:8083/manager/text/deploy?path=/devops&update=true"
+  	  def tomcaturl = 'http://localhost:8083/manager/text/deploy?path=/devops&update=true'
   	  println '"${tomcaturl}"'
   	  
 
