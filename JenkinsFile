@@ -1,10 +1,10 @@
 node {
    def mvnHome
  
+    
    stage('Deploy') {
-  	  def URL = "http://localhost:8083/manager/text/deploy?path=/devops&update=true"
+	  println ["C:\Program Files\Git\bin\bash.ex", '-c' "curl", "-u", "jenkins:jenkins", " target\**.wa", "http://localhost:8083/manager/text/deploy?path=/devops&update=true"].execute().text
   	  
-      bat(/"C:\Program Files\Git\bin\bash.exe" -c """curl -u jenkins:jenkins -T target\**.war \"${URL}\"" )
 
    }
 
