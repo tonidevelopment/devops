@@ -2,10 +2,8 @@ node {
    def mvnHome
  
    stage('Deploy') {
-    	 def bash = "C://Program Files/Git/bin/bash.exe"
-         def CURLDATA = """'{"to":"${MEETINGROOM}"}'"""
- 		 println  "${CURLDATA}"
-       	println '"${bash}"'
+      bat(/"C:\Program Files\Git\bin\bash.exe" /)
+
    }
 
 }
