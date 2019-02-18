@@ -1,12 +1,9 @@
 node {
    def mvnHome
-	 def cmd_exec(command) {
-	    return bat(returnStdout: true, script: "${command}").trim()
-	}
+
    stage('Deploy') {
-  	  
-      cmd_exec('echo "Buils starting..."')
-      cmd_exec('echo "dir /a /b"')
+  	  bat(/"echo "Buils starting..." /)
+     
 
    }
 
