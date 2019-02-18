@@ -3,7 +3,7 @@ node {
  
     
    stage('Deploy') {
-	  println ["C:\Program Files\Git\bin\bash.exe", '-c' "curl", "-u", "jenkins:jenkins", " target\**.wa", "http://localhost:8083/manager/text/deploy?path=/devops&update=true"].execute().text
+	  println ["C:\Program Files\Git\bin\bash.exe", '-c' "curl", "-u", "jenkins:jenkins", " target\**.war", "http://localhost:8083/manager/text/deploy?path=/devops&update=true"].execute().text
   	  
 
    }
