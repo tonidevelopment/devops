@@ -1,10 +1,12 @@
 node {
    def mvnHome
  
-   stage('Deploy') {
-  	  
-      bat(start cmd.exe /c "C:\\Program Files\Git\bin\bash.exe" -c "curl -v"  )
+  stage('build') {
+      cmd_exec('echo "Buils starting..."')
+      cmd_exec('echo "dir /a /b"')
+}
 
-   }
-
+	def cmd_exec(command) {
+	    return bat(returnStdout: true, script: "${command}").trim()
+	}
 }
