@@ -2,7 +2,7 @@ node {
    def mvnHome
 
    stage('Deploy') {
-     bat(/"curl -u jenkins:jenkins -T target\devops-1.5.0-SNAPSHOT.war "'http://localhost:8080/manager/text/deploy?path=/devops&update=true'""/)     
+     sh 'curl -u jenkins:jenkins -T target\devops-1.5.0-SNAPSHOT.war "http://localhost:8083/manager/text/deploy?path=/devops&update=true"'    
 
    }
 
