@@ -30,7 +30,7 @@ node {
       }
    }
    stage('Deploy') {
-     bat ('dir')    
+     bat ('run_deploy_windows.bat')    
 
    }
 
