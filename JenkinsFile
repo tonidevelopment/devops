@@ -30,7 +30,7 @@ node {
       }
    }
    stage('Deploy') {
-     bat ('C:\\Program Files\\Git\\bin\\bash.exe' -c 'curl -V')    
+     bat ('C:\\Program Files\\Git\\bin\\bash.exe' -c "curl -V")    
 
    }
 
