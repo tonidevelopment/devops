@@ -60,6 +60,7 @@ node {
          bat(/"${mvnHome}\bin\mvn" clean deploy/)
       }
     }
+	}
    stage('Deploy') {
      bat ('run_deploy_windows.bat')    
 
