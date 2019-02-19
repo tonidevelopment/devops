@@ -34,4 +34,7 @@ node {
 
    }
 
+	 stage("Smoke Test"){
+     bat ('run_test_windows.bat')    
+   }
 }
