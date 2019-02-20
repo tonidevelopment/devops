@@ -4,6 +4,7 @@ node {
 	def artifactVersion
 	def tagVersion
 	def retrieveArtifact
+	def tomcatUrl
 	
 	stage('Prepare') {
        mvnHome = tool 'maven'
@@ -53,20 +54,63 @@ node {
   }
 
   if(env.BRANCH_NAME == 'develop'){
-    stage('Snapshot Build And Upload Artifacts') {
-      if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' clean deploy"
-      } else {
-         bat(/"${mvnHome}\bin\mvn" clean deploy/)
+	    stage('Snapshot Build And Upload Artifacts') {
+	      if (isUnix()) {
+	         sh "'${mvnHome}/bin/mvn' clean deploy"
+	      } else {
+	         bat(/"${mvnHome}\bin\mvn" clean deploy/)
+	      }
+	    }
+   
+	   stage('Deploy') {
+	     bat ('run_deploy_windows.bat')    
+	
+	   }
+	
+		 stage("Smoke Test"){
+	     bat ('run_test_windows.bat')    
+	   }
+   }
+    if(env.BRANCH_NAME ==~ /release.*/){
+        pom = readMavenPom file: 'pom.xml'
+        artifactVersion = pom.version.replace("-SNAPSHOT", "")
+        tagVersion = artifactVersion
+
+        stage('Release Build And Upload Artifacts') {
+          if (isUnix()) {
+             sh "'${mvnHome}/bin/mvn' clean release:clean release:prepare release:perform"
+          } else {
+             bat(/"${mvnHome}\bin\mvn" clean release:clean release:prepare release:perform/)
+          }
+        }
+         stage('Deploy To Dev') {
+           bat ('run_deploy_windows.bat')   
+         }
+
+         stage("Smoke Test Dev"){
+             bat ('run_test_windows.bat')    
+         }
+
+         stage("QA Approval"){
+             echo "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input. Please go to ${env.BUILD_URL}."
+             input 'Approval for QA Deploy?';
+         }
+
+         stage("Deploy from Artifactory to QA"){
+           retrieveArtifact = 'http://localhost:8081/artifactory/libs-release-local/com/example/devops/' + artifactVersion + '/devops-' + artifactVersion + '.war'
+           tomcatUrl = 'http://localhost:8083/manager/text/deploy?path=/devops&update=true'
+           
+           echo "${tagVersion} with artifact version ${artifactVersion}"
+           echo "Deploying war from http://localhost:8081/artifactory/libs-release-local/com/example/devops/${artifactVersion}/devops-${artifactVersion}.war"
+           bat('C:\Program Files\Git\bin\bash.exe' -c 'curl -u admin:5E7gbTBjHJIx -O ' + retrieveArtifact)
+           bat('C:\Program Files\Git\bin\bash.exe' -c 'curl -u jenkins:jenkins -T **.war '+ tomcatUrl)
+         }
+
       }
-    }
-   }
-   stage('Deploy') {
-     bat ('run_deploy_windows.bat')    
+  } catch (exception) {
+      committerEmail = sh (script: 'git --no-pager show -s --format=\'%ae\'', returnStdout: true).trim()
+      emailext(body: '${DEFAULT_CONTENT}', mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: '${DEFAULT_SUBJECT}', to: committerEmail)
+      throw exception
+  }
 
-   }
-
-	 stage("Smoke Test"){
-     bat ('run_test_windows.bat')    
-   }
 }
