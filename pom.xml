@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>devops</artifactId>
-	<version>1.5.3-SNAPSHOT</version>
+	<version>1.5.3</version>
 	<packaging>war</packaging>
 	<name>devops</name>
 	<description>DevOps Demo Project</description>
@@ -37,7 +37,7 @@
 	  <connection>scm:git:https://github.com/tonidevelopment/devops.git</connection>
 	  <developerConnection>scm:git:https://github.com/tonidevelopment/devops.git</developerConnection>
 	  <url>https://github.com/tonidevelopment/devops.git</url>
-	  <tag>HEAD</tag>
+	  <tag>1.5.3</tag>
 	</scm>
 	
 	<dependencies>
