@@ -103,7 +103,7 @@ node {
            echo "${tagVersion} with artifact version ${artifactVersion}"
            echo "Deploying war from http://localhost:8081/artifactory/libs-release-local/com/example/devops/${artifactVersion}/devops-${artifactVersion}.war"
            bat('curl -u admin:5E7gbTBjHJIx -O ' + retrieveArtifact)
-           bat('C:\Program Files\Git\bin\bash.exe' -c 'curl -u jenkins:jenkins -T **.war '+ tomcatUrl)
+           bat('curl -u jenkins:jenkins -T **.war '+ tomcatUrl)
          }
 
       }
